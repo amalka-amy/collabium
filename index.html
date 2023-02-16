@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collabium</title>
+</head>
+<body>
+    <h1>Google Search API</h1>
+    <h2>
+
+    </h2>
+    <p>
+        
+    </p>
+    <form>
+      <input type="text" name="q">
+      <button type="submit">Vyhledat</button>
+    </form>
+
+    <button id="pdf-button">Save as PDF</button>
+
+  </body>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+        $(function() {
+            $('form').submit(function(event) {
+            event.preventDefault();
+            var query = $('input[name="q"]').val();
+            var url = 'https://www.googleapis.com/customsearch/v1?key=AIzaSyAptO7dFlLi3nr6o6HKt29QKJlq8ngVWm4&cx=017576662512468239146:omuauf_lfve&q=' + query;
+            $.get(url, function(data) {
+            var results = data.items;
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                $('body').append('<h2>' + item.title + '</h2>');
+                $('body').append('<p>' + item.snippet + '</p>');
+                }
+            });
+            });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js">
+        $('#pdf-button').click(function() {
+            var pdf = new jsPDF();
+            pdf.html(document.body, {
+            callback: function() {
+                pdf.save('page.pdf');
+            }
+            });
+        });
+    </script>
+
+
+</html>
+
